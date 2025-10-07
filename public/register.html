@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient Registration - Optical Eye Clinic</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="logo">
+                    <i class="fas fa-eye"></i>
+                    <span>Optical Eye Clinic</span>
+                </div>
+                <ul class="nav-menu">
+                    <li class="nav-item">
+                        <a href="/" class="nav-link">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/register" class="nav-link active">Register</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/records" class="nav-link">Records</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/contact" class="nav-link">Contact</a>
+                    </li>
+                </ul>
+                <div class="hamburger">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main style="padding-top: 100px; min-height: 100vh; background: linear-gradient(135deg, #f8fbff 0%, #e6f3ff 100%);">
+        <div class="container" style="padding: 40px 20px;">
+            <div class="section-header">
+                <h1 class="section-title">Patient Registration</h1>
+                <p class="section-subtitle">Please fill out the form below to register as a new patient</p>
+            </div>
+
+            <div class="form-container">
+                <div id="alert-container"></div>
+                
+                <form id="registrationForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="name">
+                                <i class="fas fa-user"></i> Full Name *
+                            </label>
+                            <input type="text" id="name" name="name" required placeholder="Enter your full name">
+                        </div>
+                        <div class="form-group">
+                            <label for="date">
+                                <i class="fas fa-calendar"></i> Date of Visit *
+                            </label>
+                            <input type="date" id="date" name="date" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="phone">
+                            <i class="fas fa-phone"></i> Phone Number *
+                        </label>
+                        <div class="phone-input-group">
+    <span class="country-code">+91</span>
+    <input type="tel" id="phone" name="phone" required placeholder="Enter 10-digit mobile number" pattern="[6-9][0-9]{9}" maxlength="10" minlength="10">
+</div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="rightEye">
+                                <i class="fas fa-eye"></i> Right Eye Number
+                            </label>
+                            <input type="text" id="rightEye" name="right_eye_number" placeholder="e.g., -2.50, +1.25">
+                            <small style="color: #666; font-size: 0.9rem;">Enter prescription or vision measurement</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="leftEye">
+                                <i class="fas fa-eye"></i> Left Eye Number
+                            </label>
+                            <input type="text" id="leftEye" name="left_eye_number" placeholder="e.g., -2.50, +1.25">
+                            <small style="color: #666; font-size: 0.9rem;">Enter prescription or vision measurement</small>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="address">
+                            <i class="fas fa-map-marker-alt"></i> Address *
+                        </label>
+                        <textarea id="address" name="address" rows="3" required placeholder="Enter your complete address..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="patientHistory">
+                            <i class="fas fa-history"></i> Patient History
+                        </label>
+                        <textarea id="patientHistory" name="patient_history" rows="4" placeholder="Please describe any previous eye conditions, surgeries, medications, or family history of eye problems..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="lastCheckup">
+                            <i class="fas fa-calendar-check"></i> Last Eye Checkup Date
+                        </label>
+                        <input type="date" id="lastCheckup" name="last_checkup_date">
+                        <small style="color: #666; font-size: 0.9rem;">When was your last eye examination?</small>
+                    </div>
+
+                    <div style="margin-top: 2rem; text-align: center;">
+                        <button type="submit" class="btn btn-primary" style="padding: 15px 40px; font-size: 1.1rem;">
+                            <i class="fas fa-user-plus"></i> Register Patient
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Additional Information Section -->
+            <div style="margin-top: 3rem; text-align: center;">
+                <div style="background: white; padding: 2rem; border-radius: 20px; box-shadow: 0 10px 30px rgba(70, 130, 180, 0.1); max-width: 600px; margin: 0 auto;">
+                    <h3 style="color: #2c3e50; margin-bottom: 1rem;">
+                        <i class="fas fa-info-circle" style="color: #4682B4;"></i> What to Expect
+                    </h3>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin-top: 1.5rem;">
+                        <div>
+                            <i class="fas fa-clock" style="color: #4682B4; font-size: 1.5rem; margin-bottom: 0.5rem;"></i>
+                            <h4 style="color: #2c3e50; margin-bottom: 0.5rem;">Quick Process</h4>
+                            <p style="color: #666; font-size: 0.9rem;">Registration takes just a few minutes</p>
+                        </div>
+                        <div>
+                            <i class="fas fa-shield-alt" style="color: #4682B4; font-size: 1.5rem; margin-bottom: 0.5rem;"></i>
+                            <h4 style="color: #2c3e50; margin-bottom: 0.5rem;">Secure Data</h4>
+                            <p style="color: #666; font-size: 0.9rem;">Your information is safely encrypted</p>
+                        </div>
+                        <div>
+                            <i class="fas fa-user-md" style="color: #4682B4; font-size: 1.5rem; margin-bottom: 0.5rem;"></i>
+                            <h4 style="color: #2c3e50; margin-bottom: 0.5rem;">Expert Care</h4>
+                            <p style="color: #666; font-size: 0.9rem;">Professional optometrists ready to help</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-logo">
+                        <i class="fas fa-eye"></i>
+                        <span>Optical Eye Clinic</span>
+                    </div>
+                    <p>Professional eye care services with a commitment to excellence and patient satisfaction.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/register">Register</a></li>
+                        <li><a href="/records">Records</a></li>
+                        <li><a href="/contact">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact Info</h4>
+                    <div class="contact-info">
+                        <p><i class="fas fa-phone"></i> +1 (555) 123-4567</p>
+                        <p><i class="fas fa-envelope"></i> info@opticaleyeclinic.com</p>
+                        <p><i class="fas fa-map-marker-alt"></i> 123 Vision Street, Eye City</p>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h4>Office Hours</h4>
+                    <div class="hours">
+                        <p>Monday - Friday: 9:00 AM - 6:00 PM</p>
+                        <p>Saturday: 9:00 AM - 4:00 PM</p>
+                        <p>Sunday: Closed</p>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Optical Eye Clinic. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Set today's date as default for date of visit
+        document.getElementById('date').valueAsDate = new Date();
+
+        // Form submission handler
+        document.getElementById('registrationForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            const data = Object.fromEntries(formData.entries());
+            
+            // Show loading state
+            const submitBtn = this.querySelector('button[type="submit"]');
+            const originalText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<div class="loading"></div> Registering...';
+            submitBtn.disabled = true;
+            
+            try {
+                const response = await fetch('/api/patients', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data)
+                });
+                
+                const result = await response.json();
+                
+                if (response.ok) {
+                    showAlert('Patient registered successfully! Patient ID: ' + result.patientId, 'success');
+                    this.reset();
+                    document.getElementById('date').valueAsDate = new Date();
+                } else {
+                    showAlert('Error: ' + (result.error || 'Registration failed'), 'error');
+                }
+            } catch (error) {
+                showAlert('Network error. Please try again.', 'error');
+            } finally {
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+            }
+        });
+        
+        function showAlert(message, type) {
+            const alertContainer = document.getElementById('alert-container');
+            const alert = document.createElement('div');
+            alert.className = `alert alert-${type}`;
+            alert.innerHTML = `
+                <i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-circle'}"></i>
+                ${message}
+            `;
+            
+            alertContainer.innerHTML = '';
+            alertContainer.appendChild(alert);
+            
+            // Auto-remove after 5 seconds
+            setTimeout(() => {
+                alert.remove();
+            }, 5000);
+        }
+        // Replace the conflicting phone formatting code around line 220
+        document.getElementById('phone').addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+            // Limit to 10 digits for Indian mobile numbers
+            if (value.length > 10) {
+                value = value.substring(0, 10);
+            }
+            // No formatting - just allow 10 digits
+            e.target.value = value;
+        });
+        
+        // Add proper validation
+        document.getElementById('phone').addEventListener('blur', function(e) {
+            const value = e.target.value.replace(/\D/g, '');
+            if (value.length === 10 && /^[6-9]\d{9}$/.test(value)) {
+                e.target.setCustomValidity('');
+                e.target.style.borderColor = '#4682B4';
+            } else if (value.length > 0) {
+                e.target.setCustomValidity('Please enter a valid 10-digit Indian mobile number starting with 6, 7, 8, or 9');
+                e.target.style.borderColor = '#dc3545';
+            }
+        });
+    </script>
+    <script src="script.js"></script>
+</body>
+</html>

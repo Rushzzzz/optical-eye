@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient Records - Optical Eye Clinic</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="logo">
+                    <i class="fas fa-eye"></i>
+                    <span>Optical Eye Clinic</span>
+                </div>
+                <ul class="nav-menu">
+                    <li class="nav-item">
+                        <a href="/" class="nav-link">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/register" class="nav-link">Register</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/records" class="nav-link active">Records</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/contact" class="nav-link">Contact</a>
+                    </li>
+                </ul>
+                <div class="hamburger">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main style="padding-top: 100px; min-height: 100vh; background: linear-gradient(135deg, #f8fbff 0%, #e6f3ff 100%);">
+        <div class="container" style="padding: 40px 20px;">
+            <div class="section-header">
+                <h1 class="section-title">
+                    <i class="fas fa-folder-open"></i> Patient Records
+                </h1>
+                <p class="section-subtitle">Search and view patient information and medical records</p>
+            </div>
+
+            <!-- Search Section -->
+            <div style="background: white; padding: 2rem; border-radius: 20px; box-shadow: 0 10px 30px rgba(70, 130, 180, 0.1); margin-bottom: 2rem;">
+                <div class="search-container">
+                    <input type="text" id="searchInput" class="search-input" placeholder="Search by patient name...">
+                    <button id="searchBtn" class="search-btn">
+                        <i class="fas fa-search"></i> Search
+                    </button>
+                    <button id="showAllBtn" class="btn btn-secondary" style="padding: 12px 24px;">
+                        <i class="fas fa-list"></i> Show All
+                    </button>
+                </div>
+                
+                <div style="display: flex; gap: 1rem; align-items: center; margin-top: 1rem; flex-wrap: wrap;">
+                    <span style="color: #666; font-weight: 500;">Quick Actions:</span>
+                    <button id="todayBtn" class="btn" style="padding: 8px 16px; background: #e6f3ff; color: #4682B4; border: 1px solid #4682B4;">
+                        <i class="fas fa-calendar-day"></i> Today's Patients
+                    </button>
+                    <button id="recentBtn" class="btn" style="padding: 8px 16px; background: #e6f3ff; color: #4682B4; border: 1px solid #4682B4;">
+                        <i class="fas fa-clock"></i> Recent Records
+                    </button>
+                    <span id="recordCount" style="margin-left: auto; color: #666; font-weight: 500;"></span>
+                </div>
+            </div>
+
+            <!-- Records Table -->
+            <div class="table-container">
+                <div id="loadingIndicator" style="text-align: center; padding: 2rem; display: none;">
+                    <div class="loading" style="margin: 0 auto;"></div>
+                    <p style="margin-top: 1rem; color: #666;">Loading patient records...</p>
+                </div>
+                
+                <div id="noRecords" style="text-align: center; padding: 3rem; display: none;">
+                    <i class="fas fa-folder-open" style="font-size: 4rem; color: #ccc; margin-bottom: 1rem;"></i>
+                    <h3 style="color: #666; margin-bottom: 0.5rem;">No Records Found</h3>
+                    <p style="color: #999;">No patient records match your search criteria.</p>
+                </div>
+                
+                <table id="recordsTable" class="table" style="display: none;">
+                    <thead>
+                        <tr>
+                            <th>Patient ID</th>
+                            <th>Name</th>
+                            <th>Phone</th>
+                            <th>Address</th>
+                            <th>Visit Date</th>
+                            <th>Right Eye</th>
+                            <th>Left Eye</th>
+                            <th>Last Checkup</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="recordsBody">
+                        <!-- Records will be populated here -->
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Patient Detail Modal -->
+            <div id="patientModal" class="modal" style="display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5);">
+                <div class="modal-content" style="background: white; margin: 5% auto; padding: 0; width: 90%; max-width: 800px; border-radius: 20px; box-shadow: 0 20px 40px rgba(0,0,0,0.3); max-height: 90vh; overflow-y: auto;">
+                    <div class="modal-header" style="background: linear-gradient(135deg, #4682B4 0%, #5a9bd4 100%); color: white; padding: 1.5rem 2rem; border-radius: 20px 20px 0 0; display: flex; justify-content: space-between; align-items: center;">
+                        <h2 style="margin: 0;"><i class="fas fa-user"></i> Patient Details</h2>
+                        <button id="closeModal" style="background: none; border: none; color: white; font-size: 1.5rem; cursor: pointer;">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <div class="modal-body" style="padding: 2rem;">
+                        <div id="patientDetails">
+                            <!-- Patient details will be populated here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-logo">
+                        <i class="fas fa-eye"></i>
+                        <span>Optical Eye Clinic</span>
+                    </div>
+                    <p>Professional eye care services with a commitment to excellence and patient satisfaction.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/register">Register</a></li>
+                        <li><a href="/records">Records</a></li>
+                        <li><a href="/contact">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact Info</h4>
+                    <div class="contact-info">
+                        <p><i class="fas fa-phone"></i> +1 (555) 123-4567</p>
+                        <p><i class="fas fa-envelope"></i> info@opticaleyeclinic.com</p>
+                        <p><i class="fas fa-map-marker-alt"></i> 123 Vision Street, Eye City</p>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h4>Office Hours</h4>
+                    <div class="hours">
+                        <p>Monday - Friday: 9:00 AM - 6:00 PM</p>
+                        <p>Saturday: 9:00 AM - 4:00 PM</p>
+                        <p>Sunday: Closed</p>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Optical Eye Clinic. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        let allPatients = [];
+        let filteredPatients = [];
+
+        // Load all patients on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            loadAllPatients();
+            
+            // Create alert container if it doesn't exist
+            if (!document.getElementById('alert-container')) {
+                const alertContainer = document.createElement('div');
+                alertContainer.id = 'alert-container';
+                alertContainer.style.position = 'fixed';
+                alertContainer.style.top = '20px';
+                alertContainer.style.right = '20px';
+                alertContainer.style.zIndex = '9999';
+                alertContainer.style.maxWidth = '400px';
+                document.body.appendChild(alertContainer);
+            }
+        });
+
+        // Event listeners
+        document.getElementById('searchBtn').addEventListener('click', searchPatients);
+        document.getElementById('showAllBtn').addEventListener('click', loadAllPatients);
+        document.getElementById('todayBtn').addEventListener('click', showTodayPatients);
+        document.getElementById('recentBtn').addEventListener('click', showRecentPatients);
+        document.getElementById('closeModal').addEventListener('click', closeModal);
+        
+        // Search on Enter key
+        document.getElementById('searchInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                searchPatients();
+            }
+        });
+
+        // Close modal on outside click
+        document.getElementById('patientModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
+
+        async function loadAllPatients() {
+            showLoading(true);
+            try {
+                const response = await fetch('/api/patients');
+                if (response.ok) {
+                    allPatients = await response.json();
+                    filteredPatients = allPatients;
+                    displayPatients(filteredPatients);
+                    updateRecordCount(filteredPatients.length, 'All records');
+                } else {
+                    showAlert('Failed to load patient records', 'error');
+                }
+            } catch (error) {
+                showAlert('Network error. Please try again.', 'error');
+            } finally {
+                showLoading(false);
+            }
+        }
+
+        async function searchPatients() {
+            const searchTerm = document.getElementById('searchInput').value.trim();
+            if (!searchTerm) {
+                loadAllPatients();
+                return;
+            }
+            
+            if (searchTerm.length < 2) {
+                showAlert('Please enter at least 2 characters to search', 'warning');
+                return;
+            }
+
+            showLoading(true);
+            try {
+                const response = await fetch(`/api/patients/search?query=${encodeURIComponent(searchTerm)}`);
+                if (response.ok) {
+                    filteredPatients = await response.json();
+                    displayPatients(filteredPatients);
+                    updateRecordCount(filteredPatients.length, `Search results for "${searchTerm}"`);
+                    
+                    if (filteredPatients.length === 0) {
+                        showAlert('No patients found matching your search', 'info');
+                    }
+                } else {
+                    showAlert('Search failed. Please try again.', 'error');
+                }
+            } catch (error) {
+                showAlert('Network error. Please try again.', 'error');
+            } finally {
+                showLoading(false);
+            }
+        }
+
+        function showTodayPatients() {
+            const today = new Date().toISOString().split('T')[0];
+            filteredPatients = allPatients.filter(patient => patient.date === today);
+            displayPatients(filteredPatients);
+            updateRecordCount(filteredPatients.length, "Today's patients");
+        }
+
+        function showRecentPatients() {
+            const sevenDaysAgo = new Date();
+            sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+            const sevenDaysAgoStr = sevenDaysAgo.toISOString().split('T')[0];
+            
+            filteredPatients = allPatients.filter(patient => patient.date >= sevenDaysAgoStr);
+            displayPatients(filteredPatients);
+            updateRecordCount(filteredPatients.length, 'Recent records (last 7 days)');
+        }
+
+        function displayPatients(patients) {
+            const tbody = document.getElementById('recordsBody');
+            const noRecordsDiv = document.getElementById('noRecords');
+            const recordsTable = document.getElementById('recordsTable');
+            
+            if (!tbody) {
+                console.error('Records table body not found');
+                return;
+            }
+            
+            tbody.innerHTML = '';
+            
+            if (!patients || patients.length === 0) {
+                noRecordsDiv.style.display = 'block';
+                recordsTable.style.display = 'none';
+                return;
+            }
+            
+            noRecordsDiv.style.display = 'none';
+            recordsTable.style.display = 'table';
+            
+            patients.forEach(patient => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>#${patient.id}</td>
+                    <td>${escapeHtml(patient.name || 'N/A')}</td>
+                    <td>${escapeHtml(patient.phone || 'N/A')}</td>
+                    <td>${escapeHtml(patient.address || 'N/A')}</td>
+                    <td>${formatDate(patient.date) || 'N/A'}</td>
+                    <td>${escapeHtml(patient.right_eye_number || 'N/A')}</td>
+                    <td>${escapeHtml(patient.left_eye_number || 'N/A')}</td>
+                    <td>${patient.last_checkup_date ? formatDate(patient.last_checkup_date) : 'N/A'}</td>
+                    <td>
+                        <button class="btn btn-primary" onclick="viewPatientDetails(${patient.id})">
+                            <i class="fas fa-eye"></i> View
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+        
+        function escapeHtml(text) {
+            if (!text) return '';
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        async function viewPatientDetails(patientId) {
+            try {
+                const response = await fetch(`/api/patients/${patientId}`);
+                if (response.ok) {
+                    const patient = await response.json();
+                    showPatientModal(patient);
+                } else {
+                    showAlert('Failed to load patient details', 'error');
+                }
+            } catch (error) {
+                showAlert('Network error. Please try again.', 'error');
+            }
+        }
+
+        function showPatientModal(patient) {
+            const detailsContainer = document.getElementById('patientDetails');
+            detailsContainer.innerHTML = `
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
+                    <div>
+                        <h3 style="color: #2c3e50; margin-bottom: 1rem; border-bottom: 2px solid #4682B4; padding-bottom: 0.5rem;">
+                            <i class="fas fa-user"></i> Personal Information
+                        </h3>
+                        <div style="space-y: 1rem;">
+                            <p><strong>Patient ID:</strong> #${patient.id}</p>
+                            <p><strong>Name:</strong> ${patient.name}</p>
+                            <p><strong>Phone:</strong> ${patient.phone}</p>
+                            <p><strong>Address:</strong> ${patient.address || 'Not specified'}</p>
+                            <p><strong>Visit Date:</strong> ${formatDate(patient.date)}</p>
+                            <p><strong>Registration Date:</strong> ${formatDateTime(patient.created_at)}</p>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <h3 style="color: #2c3e50; margin-bottom: 1rem; border-bottom: 2px solid #4682B4; padding-bottom: 0.5rem;">
+                            <i class="fas fa-eye"></i> Vision Information
+                        </h3>
+                        <div style="space-y: 1rem;">
+                            <p><strong>Right Eye:</strong> ${patient.right_eye_number || 'Not specified'}</p>
+                            <p><strong>Left Eye:</strong> ${patient.left_eye_number || 'Not specified'}</p>
+                            <p><strong>Last Checkup:</strong> ${patient.last_checkup_date ? formatDate(patient.last_checkup_date) : 'Not specified'}</p>
+                        </div>
+                    </div>
+                </div>
+                
+                ${patient.patient_history ? `
+                    <div style="margin-top: 2rem;">
+                        <h3 style="color: #2c3e50; margin-bottom: 1rem; border-bottom: 2px solid #4682B4; padding-bottom: 0.5rem;">
+                            <i class="fas fa-history"></i> Patient History
+                        </h3>
+                        <div style="background: #f8fbff; padding: 1.5rem; border-radius: 10px; border-left: 4px solid #4682B4;">
+                            <p style="line-height: 1.6; margin: 0;">${patient.patient_history}</p>
+                        </div>
+                    </div>
+                ` : ''}
+            `;
+            
+            document.getElementById('patientModal').style.display = 'block';
+        }
+
+        function closeModal() {
+            document.getElementById('patientModal').style.display = 'none';
+        }
+
+        function showLoading(show) {
+            document.getElementById('loadingIndicator').style.display = show ? 'block' : 'none';
+        }
+
+        function showAlert(message, type = 'info') {
+            const alertContainer = document.getElementById('alert-container');
+            if (!alertContainer) return;
+            
+            const alert = document.createElement('div');
+            alert.className = `alert alert-${type}`;
+            
+            const icon = type === 'success' ? 'check-circle' : 
+                        type === 'error' ? 'exclamation-circle' : 
+                        type === 'warning' ? 'exclamation-triangle' : 'info-circle';
+            
+            alert.innerHTML = `
+                <i class="fas fa-${icon}"></i>
+                ${message}
+                <button class="alert-close" onclick="this.parentElement.remove()">
+                    <i class="fas fa-times"></i>
+                </button>
+            `;
+            
+            alertContainer.appendChild(alert);
+            
+            setTimeout(() => {
+                if (alert.parentElement) {
+                    alert.remove();
+                }
+            }, 5000);
+        }
+
+        function updateRecordCount(count, description) {
+            document.getElementById('recordCount').textContent = `${count} ${description}`;
+        }
+
+        function formatDate(dateString) {
+            if (!dateString) return '-';
+            const date = new Date(dateString);
+            return date.toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric'
+            });
+        }
+
+        function formatDateTime(dateString) {
+            if (!dateString) return '-';
+            const date = new Date(dateString);
+            return date.toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+        }
+        
+        // Utility function to debounce search inputs
+        function debounce(func, wait) {
+            let timeout;
+            return function executedFunction(...args) {
+                const later = () => {
+                    clearTimeout(timeout);
+                    func(...args);
+                };
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+            };
+        }
+        
+        // Add debounced search for better UX
+        const debouncedSearch = debounce(() => {
+            const searchTerm = document.getElementById('searchInput').value.trim();
+            if (searchTerm.length >= 2) {
+                searchPatients();
+            }
+        }, 300);
+        
+        document.getElementById('searchInput').addEventListener('input', debouncedSearch);
+    </script>
+</body>
+</html>
