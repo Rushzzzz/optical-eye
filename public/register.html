@@ -196,88 +196,102 @@
     </footer>
 
     <script>
-        // Set today's date as default for date of visit
-        document.getElementById('date').valueAsDate = new Date();
+/* ===========================
+   SET TODAY DATE DEFAULT
+=========================== */
+const dateInput = document.getElementById('date');
+if (dateInput) {
+  dateInput.valueAsDate = new Date();
+}
 
-        // Form submission handler
-        document.getElementById('registrationForm').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            
-            const formData = new FormData(this);
-            const data = Object.fromEntries(formData.entries());
-            
-            // Show loading state
-            const submitBtn = this.querySelector('button[type="submit"]');
-            const originalText = submitBtn.innerHTML;
-            submitBtn.innerHTML = '<div class="loading"></div> Registering...';
-            submitBtn.disabled = true;
-            
-            try {
-                const response = await fetch('/api/patients', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(data)
-                });
-                
-                const result = await response.json();
-                
-                if (response.ok) {
-                    showAlert('Patient registered successfully! Patient ID: ' + result.patientId, 'success');
-                    this.reset();
-                    document.getElementById('date').valueAsDate = new Date();
-                } else {
-                    showAlert('Error: ' + (result.error || 'Registration failed'), 'error');
-                }
-            } catch (error) {
-                showAlert('Network error. Please try again.', 'error');
-            } finally {
-                submitBtn.innerHTML = originalText;
-                submitBtn.disabled = false;
-            }
-        });
-        
-        function showAlert(message, type) {
-            const alertContainer = document.getElementById('alert-container');
-            const alert = document.createElement('div');
-            alert.className = `alert alert-${type}`;
-            alert.innerHTML = `
-                <i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-circle'}"></i>
-                ${message}
-            `;
-            
-            alertContainer.innerHTML = '';
-            alertContainer.appendChild(alert);
-            
-            // Auto-remove after 5 seconds
-            setTimeout(() => {
-                alert.remove();
-            }, 5000);
-        }
-        // Replace the conflicting phone formatting code around line 220
-        document.getElementById('phone').addEventListener('input', function(e) {
-            let value = e.target.value.replace(/\D/g, '');
-            // Limit to 10 digits for Indian mobile numbers
-            if (value.length > 10) {
-                value = value.substring(0, 10);
-            }
-            // No formatting - just allow 10 digits
-            e.target.value = value;
-        });
-        
-        // Add proper validation
-        document.getElementById('phone').addEventListener('blur', function(e) {
-            const value = e.target.value.replace(/\D/g, '');
-            if (value.length === 10 && /^[6-9]\d{9}$/.test(value)) {
-                e.target.setCustomValidity('');
-                e.target.style.borderColor = '#4682B4';
-            } else if (value.length > 0) {
-                e.target.setCustomValidity('Please enter a valid 10-digit Indian mobile number starting with 6, 7, 8, or 9');
-                e.target.style.borderColor = '#dc3545';
-            }
-        });
-    </script>
+/* ===========================
+   SHOW ALERT FUNCTION
+=========================== */
+function showAlert(message, type = 'success') {
+  const alertContainer = document.getElementById('alert-container');
+  if (!alertContainer) return;
+
+  alertContainer.innerHTML = `
+    <div class="alert alert-${type}">
+      <i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-circle'}"></i>
+      ${message}
+    </div>
+  `;
+
+  setTimeout(() => {
+    alertContainer.innerHTML = '';
+  }, 5000);
+}
+
+/* ===========================
+   PHONE VALIDATION
+=========================== */
+const phoneInput = document.getElementById('phone');
+if (phoneInput) {
+  phoneInput.addEventListener('input', function (e) {
+    let value = e.target.value.replace(/\D/g, '');
+    if (value.length > 10) value = value.substring(0, 10);
+    e.target.value = value;
+  });
+
+  phoneInput.addEventListener('blur', function (e) {
+    const value = e.target.value;
+    if (value.length === 10 && /^[6-9]\d{9}$/.test(value)) {
+      e.target.setCustomValidity('');
+    } else if (value.length > 0) {
+      e.target.setCustomValidity(
+        'Please enter a valid 10-digit Indian mobile number starting with 6, 7, 8, or 9'
+      );
+    }
+  });
+}
+
+/* ===========================
+   FORM SUBMIT HANDLER
+=========================== */
+const form = document.getElementById('registrationForm');
+
+if (form) {
+  form.addEventListener('submit', async function (e) {
+    e.preventDefault();
+
+    const formData = new FormData(form);
+    const data = Object.fromEntries(formData.entries());
+
+    const submitBtn = form.querySelector('button[type="submit"]');
+    const originalText = submitBtn.innerHTML;
+
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = 'Registering...';
+
+    try {
+      const response = await fetch('/api/patients', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(result.error || 'Registration failed');
+      }
+
+      showAlert('Patient registered successfully!', 'success');
+      form.reset();
+      if (dateInput) dateInput.valueAsDate = new Date();
+
+    } catch (error) {
+      showAlert('Network error. Please try again.', 'error');
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = originalText;
+    }
+  });
+}
+</script>
     <script src="script.js"></script>
 </body>
 </html>
