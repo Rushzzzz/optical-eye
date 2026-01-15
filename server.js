@@ -40,3 +40,13 @@ app.post('/add-patient', (req, res) => {
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
+
+app.post('/register', (req, res) => {
+  console.log(req.body); // check data aa raha ya nahi
+
+  // abhi sirf success response bhej rahe
+  res.json({
+    success: true,
+    message: 'Patient registered successfully'
+  });
+});
