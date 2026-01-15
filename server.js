@@ -4,21 +4,43 @@ const path = require('path');
 const app = express();
 const PORT = process.env.PORT || 8080;
 
-// middlewares
+// middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// public folder (HTML)
-app.use(express.static(path.join(__dirname, 'public')));
+// ===== PAGES =====
 
-// home route
+// home
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-// ping route (IMPORTANT for UptimeRobot)
+// register page
+app.get('/register', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'register.html'));
+});
+
+// records page
+app.get('/records', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'record.html'));
+});
+
+// login page (agar hai)
+app.get('/login', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'login.html'));
+});
+
+// ===== API =====
+
+// ping (uptimerobot)
 app.get('/ping', (req, res) => {
-  res.status(200).send('pong');
+  res.send('pong');
+});
+
+// example form submit (SUPABASE yahin lagega)
+app.post('/add-patient', async (req, res) => {
+  console.log(req.body);
+  res.redirect('/records');
 });
 
 app.listen(PORT, () => {
