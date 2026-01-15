@@ -8,38 +8,32 @@ const PORT = process.env.PORT || 8080;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// ===== PAGES =====
+// ✅ STATIC FILES (CSS / JS / IMAGES)
+app.use(express.static(path.join(__dirname, 'public')));
 
-// home
+// ===== PAGES =====
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-// register page
 app.get('/register', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'register.html'));
 });
 
-// records page
 app.get('/records', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'record.html'));
 });
 
-// login page (agar hai)
 app.get('/login', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'login.html'));
 });
 
 // ===== API =====
-
-// ping (uptimerobot)
 app.get('/ping', (req, res) => {
   res.send('pong');
 });
 
-// example form submit (SUPABASE yahin lagega)
-app.post('/add-patient', async (req, res) => {
-  console.log(req.body);
+app.post('/add-patient', (req, res) => {
   res.redirect('/records');
 });
 
